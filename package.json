@@ -1,0 +1,41 @@
+{
+      "name": "hapi-joi-password",
+      "version": "1.0.0",
+      "description": "A Joi extension that help to validate a complex password",
+      "main": "lib/index.js",
+      "types": "lib/index.d.ts",
+      "files": [
+            "lib/**/*"
+      ],
+      "keywords": [
+            "@hapi/joi",
+            "password",
+            "password validation",
+            "password validator"
+      ],
+      "scripts": {
+            "build": "tsc",
+            "prepare": "rm -r lib  &&  npm run build",
+            "test": "jest",
+            "build:pro": "webpack --config webpack.config.js "
+      },
+      "repository": "https://github.com/Heaty566/hapi-joi-password.git",
+      "author": "heaty566 <heaty566@gmail.com>",
+      "license": "MIT",
+      "dependencies": {},
+      "devDependencies": {
+            "@babel/preset-env": "^7.16.0",
+            "@hapi/joi": "^17.1.1",
+            "@types/hapi__joi": "^17.1.7",
+            "@types/jest": "^27.0.2",
+            "babel-loader": "^8.2.3",
+            "jest": "^27.3.1",
+            "ts-jest": "^27.0.7",
+            "ts-node": "^10.4.0",
+            "typescript": "^4.4.4",
+            "webpack": "^5.64.1",
+            "webpack-cli": "^4.9.1",
+            "webpack-merge": "^5.8.0",
+            "webpack-node-externals": "^3.0.0"
+      }
+}
