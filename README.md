@@ -26,7 +26,7 @@ yarn add @hapi/joi hapi-joi-password
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@hapi/joi@17.1.1/dist/joi-browser.min.js"></script>
-<script src="./cdn/hapi-joi-password.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/heaty566/hapi-joi-password/cdn/hapi-joi-password.min.js./cdn/hapi-joi-password.min.js"></script>
 ```
 
 ## Usage
