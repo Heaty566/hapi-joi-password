@@ -17,7 +17,7 @@
             "build": "tsc",
             "prepare": "rm -r lib  &&  npm run build",
             "test": "jest",
-            "build:pro": "webpack --config webpack.config.js "
+            "build:cdn": "webpack --config webpack.config.js "
       },
       "repository": "https://github.com/Heaty566/hapi-joi-password.git",
       "author": "heaty566 <heaty566@gmail.com>",
