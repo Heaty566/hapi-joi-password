@@ -1,6 +1,6 @@
 {
       "name": "hapi-joi-password",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "description": "A Joi extension that help to validate a complex password",
       "main": "lib/index.js",
       "types": "lib/index.d.ts",
@@ -14,10 +14,12 @@
             "password validator"
       ],
       "scripts": {
-            "build": "tsc",
-            "prepare": "rm -r lib  &&  npm run build",
+            "build": "rm -r lib  && tsc",
+            "publish": " yarn run build && yarn run build:cdn && npm publish",
+            "start:dev": "NODE_ENV=development  nodemon --exec ts-node index.ts",
             "test": "jest",
-            "build:cdn": "webpack --config webpack.config.js "
+            "test:cov": "jest --coverage --runInBand --detectOpenHandles",
+            "build:cdn": "webpack --config webpack.config.js"
       },
       "repository": "https://github.com/Heaty566/hapi-joi-password.git",
       "author": "heaty566 <heaty566@gmail.com>",

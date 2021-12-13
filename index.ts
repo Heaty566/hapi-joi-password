@@ -29,6 +29,12 @@ export interface JoiStringExtend extends joi.StringSchema {
        * @description Verifies that a schema has no white spaces, Please do not use trim() function to make this function works perfectly.
        */
       noWhiteSpaces(): this;
+
+      /**
+       * @description Verifies that a schema does not include the value of other fields. Ex: "password" should not include "name"
+       * @param fields - an array of fields which determine what field to compare. Ex: ["firstName"]
+       */
+      notIncludeField(fields: string[]): this;
 }
 export interface JoiPasswordExtend extends joi.Root {
       string(): JoiStringExtend;
@@ -45,6 +51,7 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                   "password.minOfLowercase": "should contain at least {#min} lowercase character",
                   "password.minOfNumeric": "should contain at least {#min} numeric character",
                   "password.noWhiteSpaces": "should not contain white spaces",
+                  "password.notIncludeField": '{#label} should not include "{#field}"',
             },
             rules: {
                   minOfUppercase: {
@@ -148,6 +155,45 @@ export const joiPassword: JoiPasswordExtend = joi.extend((joi) => {
                               const numSpace = (value.match(/ /g) || []).length;
                               if (numSpace !== 0) return helpers.error("password.noWhiteSpaces");
 
+                              return value;
+                        },
+                  },
+                  notIncludeField: {
+                        method(fields: string[]) {
+                              return this.$_addRule({
+                                    name: "notIncludeField",
+                                    args: { fields },
+                              });
+                        },
+                        args: [
+                              {
+                                    name: "fields",
+                                    assert: (value) => value && Array.isArray(value),
+                                    message: "must be an array of string",
+                              },
+                        ],
+                        validate: (
+                              value: string,
+                              helpers: joi.CustomHelpers,
+                              { fields = [] }: { fields: string[] }
+                        ) => {
+                              const objectValue: Record<string, string> =
+                                    helpers.state?.ancestors[0];
+                              if (objectValue) {
+                                    const isIncludes = fields.filter(
+                                          (item) =>
+                                                Object.keys(objectValue).includes(item) &&
+                                                objectValue[item]
+                                                      .split(" ")
+                                                      .some((str) => value.includes(str))
+                                    );
+
+                                    if (Boolean(isIncludes.length)) {
+                                          return helpers.error("password.notIncludeField", {
+                                                field: isIncludes[0],
+                                          });
+                                    }
+                              }
                               return value;
                         },
                   },

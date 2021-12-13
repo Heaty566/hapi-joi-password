@@ -1,11 +1,12 @@
-import { JoiPassword } from "..";
+import { joiPassword } from "../index";
 import joi from "@hapi/joi";
 
 describe("JoiPasswordComplexity", () => {
       const schema = (input: any) =>
             joi
                   .object({
-                        data: JoiPassword.string()
+                        data: joiPassword
+                              .string()
                               .minOfSpecialCharacters(2)
                               .minOfLowercase(2)
                               .minOfUppercase(2)
@@ -86,6 +87,36 @@ describe("JoiPasswordComplexity", () => {
 
                   expect(error).toBeDefined();
                   expect(error?.details[0].type).toBe("password.noWhiteSpaces");
+            });
+      });
+      describe("notIncludeField", () => {
+            it("Pass", () => {
+                  const schema = (input: any) =>
+                        joi
+                              .object({
+                                    name: joiPassword.string(),
+                                    password: joiPassword.string().notIncludeField(["name"]),
+                              })
+                              .validate(input);
+
+                  const { error } = schema({ password: "test123", name: "test" });
+
+                  expect(error?.details[0].type).toBe("password.notIncludeField");
+            });
+            it("Pass two fields", () => {
+                  const schema = (input: any) =>
+                        joi
+                              .object({
+                                    name: joiPassword.string(),
+                                    username: joiPassword.string(),
+                                    password: joiPassword
+                                          .string()
+                                          .notIncludeField(["name", "username"]),
+                              })
+                              .validate(input);
+
+                  const { error } = schema({ password: "test123", name: "test" });
+                  expect(error?.details[0].type).toBe("password.notIncludeField");
             });
       });
 });
