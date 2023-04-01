@@ -6,6 +6,8 @@
 
 # hapi-joi-password
 
+# this package is archived, please use [joi-password](https://www.npmjs.com/package/joi-password) instead
+
 A Joi extension that help to validate a complex password
 
 ## Installation
